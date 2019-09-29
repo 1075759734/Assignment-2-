@@ -1,0 +1,34 @@
+
+<form>
+  <div class="form-group">
+    <label for="messageContent">New Message</label>
+    <input type="text" [(ngModel)]="messageContent.text" name="messageContent" id="messageContent" class="form-control" />
+  </div>
+  <div class="form-group">
+    <button class="btn btn-primary mr-2" (click)="chat()">Chat</button>
+    <input
+      style="display: none"
+      type="file"
+      accept="image/*"
+      name="image"
+      (change)="onFileChanged($event)"
+      #fileInput>
+    <button class="btn btn-outline-primary" (click)="fileInput.click()">Send Image</button>
+  </div>
+</form>
+<h3>Chat Message:</h3>
+<ul>
+  <li *ngFor="let message of messages">
+    {{message.username}}:
+    <p
+      *ngIf="message.text"
+      style="display: inline"
+    >{{message.text}}</p>
+    <img
+      *ngIf="message.image"
+      src="{{BASE_URL}}{{message.image}}"
+      style="display: inline"
+    />
+  </li>
+</ul>
+

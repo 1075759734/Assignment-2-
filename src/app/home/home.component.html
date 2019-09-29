@@ -1,0 +1,33 @@
+
+<h1>Hi the current user: {{currentUser.username}}!</h1>
+<p>You're logged in!</p>
+
+<button *ngIf="isSuper" class="btn btn-primary mb-2" (click)="addUser()">New User</button>
+
+<h3 *ngIf="isSuper">All registered users:</h3>
+<table class="table table-hover" *ngIf="isSuper">
+  <thead>
+  <tr>
+    <th scope="col">id</th>
+    <th scope="col">username</th>
+    <th scope="col">Super</th>
+    <th scope="col">Group Admin</th>
+    <th scope="col">Group Assist</th>
+    <th scope="col">manage</th>
+  </tr>
+  </thead>
+  <tbody>
+    <tr scope="col" *ngFor="let user of users">
+      <td>{{user._id}} </td>
+      <td>{{user.username}} </td>
+      <td>{{user.ofSuperAdminInRole}} </td>
+      <td>{{user.ofGroupAdminInRole}}  </td>
+      <td>{{user.ofGroupAssistInRole }}</td>
+      <td scope="col">
+        <button (click)="viewUser(user.username)" class="btn btn-outline-primary mr-2" >View</button>
+        <button (click)="editUser(user.username)" class="btn btn-primary mr-2">Edit</button>
+        <button (click)="deleteUser(user.username)" class="btn btn-danger mr-2">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
