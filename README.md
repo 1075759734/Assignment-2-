@@ -1,79 +1,117 @@
-# MyApp
+## Git
+  - use 'git init' to initialize project
+  - use 'git commit -m "message"' to commit changes
+  - use 'git push' to push latest changes
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 8.3.0.
+## Data structure
+- user:
+```
+{
+  username: string,
+  password: string,
+  ofSuperAdminInRole: boolean,
+  ofGroupAdminInRole: boolean,
+  ofGroupAssistInRole: boolean,
+  groupList: [],
+  channelList: [],
+  adminGroupList: [],
+}
+```
+- channel
+```
+{
+    channelname: string;
+    description: string;
+}
+```
+- group
+```
+{
+    groupname: string;
+    description: string;
+}
+```
 
-## artifacture
-No chat function required; create a dashboard;
-The chat function requires real-time communication in different groups and channels;
-- admin user：Some users have admin privileges to add other users to channels or groups
-- super admin：able to manage this site
-- use node.js/angular/sockets
-
-Assignment1 does not require user authentication
-
-
-## function
-1. group admin
-	- create groups
-	- create/invite user to group
-	- remove an user from group
-	- allow a user to become a group assist of the group
-2. super admin
-	- create users with group super role
-	- add/remove users in the group
-	- can provide another user with super role
-	- has groupAdmin role.
-3. user
-	- id: username
-	- Initialization：one user called 'super' is Super-admin
-	- email address
-
-## implements
-Registered user：http://localhost:4200/Register
-Login user：http://localhost:4200/Login
-Register group: http://localhost:4200/Register2
-The default contains super user: the password is also super
-
-- first page
-	+ enter username，remembered in local storage
-	+ logout： clears username out of local storage
-- groups page
-	+ Users log in and see the groups they have joined
-- super-admin page
-	+ input forms to add, delete user, group,
-	+  A text box should allow a new message to be launched to the channel
-	+ The new message can be broadcast to not all users (as1 not needed)
-	+ data is stored in the serialising js object to the JSON string stored in the file system.
-
-## Building a project
-ng new my-app
-cd my-app
-ng serve --open
-
-npm install bootstrap@next
-npm install --save rxjs-compat
-
-- - Login Page
-	+ component component and corresponding template template
-	+ ng generate component login
-	+ ng generate component group
-	+ ng generate component chat
-- model
-	+ ng generate class user-model # Generate a user-model.ts which is the UserModel class
-	+ ng g cl models/user # Create models folder, user model
-	+ ng generate service login-data # Generate a login-data.service.ts- service
-	+ ng g service authentication
-- localStorage
-	+ Access：
-		* localStorage.setItem('key', 'value');
-		* localStorage.key = 'value'
-		* const info = {name:'1', age:'2',};
-		* sessionStorage.setItem('key', JSON.stringify(info));
-	+ get：
-		* var data1 = JSON.parse(localStorage.getItem('key'));
-		* localStorage.key;
-	+ delete：
-		* localStorage.removeItem('key');
-		* Remove all：	
-			- sessionStorage.clear();
-			- localStorage.clear();
+## REST API
+- Overall:
+  -  Front End should handle how to display UI in browser
+  -  Back End should handle requests from front end and provide requested data. Express will communicate with mongoDB database to CRUD data.
+  -  All data should be JSON format
+  -  Back End receive the request of uploading image files and save it into a static dirctory folder 'assets' and return file's path to front end.
+- User
+  - POST '/login': for user lgoin
+    - param: username, password
+    - return: user data
+  - GET '/users': get all users list
+    - param: none
+    - return: uers list data
+  - GET '/user/:username': get a single user
+    - param: username
+    - return: user data
+  - POST '/user': create a new user
+    - param: user data
+    - return: new user data
+  - PUT '/user/:username': update an existing user
+    - param: username and user data
+    - return: user data
+  - DELETE '/user/:username': delete an existing user
+    - param: username
+    - return: deleted user data
+- Channel
+  - GET '/channels': get all channels list
+    - param: none
+    - return: channel list data
+  - GET '/channel/:channelname': get a single channel
+    - param: channelname
+    - return: channel data
+  - POST '/channel': create a new channel
+    - param: channel data
+    - return: new channel data
+  - PUT '/channel/:channelname': update an existing channel
+    - param: channelname and channel data
+    - return: channel data
+  - DELETE '/channel/:channelname': delete an existing channel
+    - param: channelname
+    - return: deleted channel data
+- Group
+  - GET '/groups': get all groups list
+    - param: none
+    - return: group list data
+  - GET '/group/:groupname': get a single group
+    - param: groupname
+    - return: group data
+  - POST '/group': create a new group
+    - param: group data
+    - return: new group data
+  - PUT '/group/:groupname': update an existing group
+    - param: groupname and group data
+    - return: group data
+  - DELETE '/group/:groupname': delete an existing group
+    - param: groupname
+    - return: deleted group data
+- Image
+    - POST '/image-upload': save image to server side and return the image's path
+    - param: file object
+    - return: file's path
+    
+## Angular Architecture
+- Component
+  - HomeComponent
+  - ChatComponent
+  - ChannelListCompoent
+  - GroupComponet
+  - LoginComponent
+  - UserComponent
+- Services
+  - authentication service
+  - socket service
+  - user service
+  - channel service
+  - group service
+  - image service
+- router
+  - implement in app-routing.module.ts
+  - when access to root '/' - redirect to '/login'
+  - only route '/login' can access without authentication, other routes need to check permission
+  - any other path will be redirect to root '/'
+  
